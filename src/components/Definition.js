@@ -1,13 +1,32 @@
 import React, { Component } from 'react'
+const token = 'example'
 
 class Definition extends Component {
-  render () {
-    const showWord = this.props.active.map((item) => {
-      return <p key={item.id}> {item.term} </p>
+  updateEntry () {
+    const slug = this.props.match.params.slug
+    if (slug !== this.state.slug) {
+      window.fetch(`https://jabberdexicon.herokuapp.com/entries/${slug}?access_token=${token}`)
+    .then(res => res.json())
+    .then(data => {
+      this.setState({
+        ...data
+      })
     })
+    }
+  }
+
+  componentDidMount () {
+    this.updateEntry()
+  }
+
+  componentDidUpdate () {
+    this.updateEntry()
+  }
+  render () {
     return (
       <div className='info'>
-        {showWord}
+        <h1>{this.state.term}</h1>
+        <p>{this.state.definition}</p>
       </div>
     )
   }
