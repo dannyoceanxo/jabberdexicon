@@ -5,7 +5,7 @@ import Definition from './Definition'
 import NewWord from './NewWord'
 import Browse from './Browse'
 import styles from '../styles/App.scss'
-const token = 'example'
+const token = 'vorpal'
 
 class App extends Component {
   state = {

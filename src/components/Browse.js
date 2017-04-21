@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import WordList from './WordList'
-const token = 'example'
+const token = 'vorpal'
 
 class Browse extends Component {
   state={active: []}
