@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import Search from './Search'
 import Definition from './Definition'
 import NewWord from './NewWord'
-import WordList from './WordList'
+import Browse from './Browse'
 import styles from '../styles/App.scss'
 const token = 'example'
 
@@ -12,27 +12,6 @@ class App extends Component {
     active: [],
     search: [],
     clicked: false
-  }
-
-  // When this react component mounts
-  loadWords () {
-    // the URL to "get" todo items
-    const url = `https://jabberdexicon.herokuapp.com/entries?access_token=${token}`
-    // make an AJAX request to that URL
-    window.fetch(url)
-      // fetch returns a promsise, which yeilds the "response", we call it 'r'
-      // The response has a method json(), that returns another promise
-      .then(r => r.json())
-      // then JSON is done parsing, the promise will yield the "data"
-      .then(data => {
-        // use the data as the state for our items
-        this.setState({
-          active: data
-        })
-      })
-  }
-  componentDidMount () {
-    this.loadWords()
   }
 
   addWord = (newTerm, newDef) => {
@@ -74,11 +53,41 @@ class App extends Component {
         <header>
           <h1>Welcome to the Jabberdome, motherfuckers</h1>
         </header>
+        <nav>
+          <ul>
+            <li><Link to='/browse/A'>A</Link></li>
+            <li><Link to='/browse/B'>B</Link></li>
+            <li><Link to='/browse/C'>C</Link></li>
+            <li><Link to='/browse/D'>D</Link></li>
+            <li><Link to='/browse/E'>E</Link></li>
+            <li><Link to='/browse/F'>F</Link></li>
+            <li><Link to='/browse/G'>G</Link></li>
+            <li><Link to='/browse/H'>H</Link></li>
+            <li><Link to='/browse/I'>I</Link></li>
+            <li><Link to='/browse/J'>J</Link></li>
+            <li><Link to='/browse/K'>K</Link></li>
+            <li><Link to='/browse/L'>L</Link></li>
+            <li><Link to='/browse/M'>M</Link></li>
+            <li><Link to='/browse/N'>N</Link></li>
+            <li><Link to='/browse/O'>O</Link></li>
+            <li><Link to='/browse/P'>P</Link></li>
+            <li><Link to='/browse/Q'>Q</Link></li>
+            <li><Link to='/browse/R'>R</Link></li>
+            <li><Link to='/browse/S'>S</Link></li>
+            <li><Link to='/browse/T'>T</Link></li>
+            <li><Link to='/browse/U'>U</Link></li>
+            <li><Link to='/browse/V'>V</Link></li>
+            <li><Link to='/browse/W'>W</Link></li>
+            <li><Link to='/browse/X'>X</Link></li>
+            <li><Link to='/browse/Y'>Y</Link></li>
+            <li><Link to='/browse/Z'>Z</Link></li>
+          </ul>
+        </nav>
         <main>
           <NewWord addWord={this.addWord} />
           <Search />
           <Route path='/entry/:slug' component={Definition} />
-          <WordList active={this.state.active} />
+          <Route path='/browse/:letter' component={Browse} />
         </main>
         <footer>
           <div className={styles.copyright}>
