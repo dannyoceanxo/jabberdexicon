@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import Search from './Search'
-import Definition from './Definition'
+import ShowSearch from './Showsearch'
+import Result from './Result'
 import NewWord from './NewWord'
-import Browse from './Browse'
-import styles from '../styles/App.scss'
+import Letters from './Letters'
+import BrowseLetter from './BrowseLetter'
+import EditItem from './EditItem'
 const token = 'vorpal'
 
 class App extends Component {
