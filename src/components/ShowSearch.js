@@ -4,7 +4,7 @@ const token = 'vorpal'
 
 class ShowSearch extends Component {
   state = {
-    active[]
+    active: []
   }
 
   componentDidMount () {
@@ -13,36 +13,36 @@ class ShowSearch extends Component {
     .then(r => r.json())
     .then(data => {
       this.setState({
-        active.data
+        active:data
       })
     })
   }
 
   render () {
     const filtered = this.state.active.filter(item =>
-    if (this.props.match.params.word.length !== 0){
-      return item.term.toLowerCase().includes(this.props.match.params.word.toLowerCase())
+      if (this.props.match.params.word.length !== 0) {
+          return item.term.toLowerCase().includes(this.props.match.params.word.toLowerCase())
+        }
+      })
+      const words = filtered.map(word => {
+        return <li className='searchResult' key={word.id}>
+          <NavLink to={`/entries/${word.slug}`} className='searchLinks'>{word.term}</NavLink>
+        </li>
+      })
+
+      let noMatch
+
+      if (filtered.length === 0) {
+        noMatch = <div>
+          <p>Sorry, we've got nothing on that one.</p>
+        </div>
+      }
+
+      return <ul className='ShowSearch'>
+        {words}
+        {noMatch}
+      </ul>
     }
-  })
-    const words = filtered.map(word => {
-      return <li className='searchResult' key={word.id}>
-        <NavLink to={`/entries/${word.slug}`} className='searchLinks'>{word.term}</NavLink>
-      </li>
-    })
-
-    let noMatch
-
-    if (filtered.length === 0 ) {
-      noMatch = <div>
-        <p>Sorry, looks like there's nothing here</p>
-      </div>
-    }
-
-    return <ul className='showSearch'>
-      {words}
-      {noMatch}
-    </ul>
   }
-}
 
-export default ShowSearch
+  export default ShowSearch

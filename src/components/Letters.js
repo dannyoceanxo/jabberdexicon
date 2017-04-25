@@ -2,7 +2,7 @@ import React, { Component} from 'react'
 import { NavLink } from 'react-router-dom'
 
 class Letters extends Component {
-  letters 'abcdefghijklmnopqrstuvwxyz'.split('')
+  letters = 'abcdefghijklmnopqrstuvwxyz'.split('')
 
   render () {
     const searchLetters = this.letters.map((letters, i) => {
@@ -12,14 +12,14 @@ class Letters extends Component {
         </NavLink>
       </li>
     })
-  return <ul className='LetterBar'>
-    {searchLetters}
-    <li>
-      <NavLink to={`/browse/numbers`} className='letterLinks'>
+    return <ul className='LetterBar'>
+      {searchLetters}
+      <li>
+        <NavLink to={`/browse/numbers`} className='letterLinks'>
         #
       </NavLink>
-    </li>
-  </ul>
+      </li>
+    </ul>
   }
 }
 

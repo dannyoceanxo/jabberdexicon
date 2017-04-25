@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { FacebookButton, TwitterButton, RedditButton } from 'react-social'
 const token = 'vorpal'
 
 class Result extends Component {
@@ -21,7 +22,7 @@ class Result extends Component {
   }
 
   componentDidUpdate () {
-    this.updateEntry
+    this.updateEntry()
   }
 
   _edit = () => {
@@ -41,22 +42,36 @@ class Result extends Component {
     }
   }
   render () {
-    const { active } this.setState
+    const { active } = this.state
+    const url = `http://jabberdexicon.jamesobrien.surge.sh/entries/${this.state.slug}`
     if (active) {
       return <div className='info'>
         <div className='titleBar'>
-          <label>{this.state.term}</label>
+          <h1>{this.state.term}</h1>
+        </div>
+        <hr />
+        <p dangerouslySetInnerHTML={{__html: `${this.state.formatted_definition}`}} />
+        <div className='lowerButtons'>
+          <div className='socialButtons'>
+            <FacebookButton url={url} appId={419861715049229} className='facebookButton'>
+              <i className='fa fa-facebook' />
+            </FacebookButton>
+            <TwitterButton url={url} className='twitterButton'>
+              <i className='fa fa-twitter' />
+            </TwitterButton>
+            <RedditButton title={`The meaning of ${this.state.term} on Jabberdexicon`} url={url} className='redditButton'>
+              <i className='fa fa-reddit-alien' />
+            </RedditButton>
+          </div>
           <div className='editDeleteBtns'>
             <button className='editBtn' onClick={this._edit}>
-              <i className='fa fa-edit' />
+              <i className='fa fa-pencil' />
             </button>
             <button className='deleteBtn' onClick={this._delete}>
               <i className='fa fa-trash' />
             </button>
           </div>
         </div>
-        <hr />
-        <p dangerouslySetInnerHTML={{_html: `${this.state.formatted_definition}`}} />
       </div>
     } else {
       return <p> Loading... </p>

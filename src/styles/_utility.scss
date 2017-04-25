@@ -1,7 +1,6 @@
 $base-text-size: 16px;
 $base-font-family: sans-serif;
 
-// Remove the browsers built-in styling for lists elements.
 @mixin reset-list {
   padding-left: 0;
 
@@ -10,8 +9,6 @@ $base-font-family: sans-serif;
   }
 }
 
-// Apply a height to the html and body elements to that they
-// fill the height of the view by default.
 @mixin full-height {
   height: 100%;
 
@@ -22,4 +19,6 @@ $base-font-family: sans-serif;
 }
 
 $niceWhite: #f7f7f7;
-$niceBlack: #333;
+$niceBlack: rbga(0, 0, 0, 0.6);
+
+$mainFont: 'Roboto Slab';

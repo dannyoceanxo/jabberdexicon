@@ -10,10 +10,36 @@ import EditItem from './EditItem'
 const token = 'vorpal'
 
 class App extends Component {
-  state = {
-    active: [],
-    search: [],
-    clicked: false
+  constructor (props) {
+    super(props)
+    this.state = {
+      clicked: false,
+      active: {},
+      info: false
+    }
+    this.clicked.bind(this)
+  }
+
+  clicked () {
+    this.setState(prevState => ({
+      clicked: !prevState.cicked,
+      info: false
+    }))
+  }
+
+  loadWords () {
+    const url = `https://jabberdexicon.herokuapp.com/entries?access_token=${token}`
+    window.fetch(url)
+    .then(r => r.json())
+    .then(data => {
+      this.setState({
+        active: data
+      })
+    })
+  }
+
+  componentDidMount () {
+    this.loadWords()
   }
 
   addWord = (newTerm, newDef) => {
@@ -29,9 +55,24 @@ class App extends Component {
       })
     }).then(r => r.json())
       .then(data => {
-        this.loadWords()
-        console.log(data)
+        if (data.term[0] === 'has already been taken') {
+          window.alert(`${newTerm} already exists!`)
+        } else {
+          window.alert(`${newTerm} was created successfully`)
+          this.props.history.push(`/entry/${data.slug}`)
+        }
       })
+  }
+
+  exit = () => {
+    this.setState({
+      clicked: false
+    })
+  }
+
+  infoClick = () => {
+    this.setState({ info: true })
+    console.log('click')
   }
 
   searchWord = (searchTerm) => {
@@ -44,60 +85,58 @@ class App extends Component {
     })
   }
 
-  _click = () => {
-    this.setState({ clicked: true })
-    console.log('click')
-  }
-
   render () {
     return <Router>
-      <div className={styles.App}>
+      <div className='App'>
+        <div className='addItemBtn'>
+          {/* <button onClick={this.infoClick} className='infoBtn'>
+              <i className='fa fa-info' />
+            </button> */}
+          <NavLink to={this.state.clicked ? '/' : '/addword/'} className='homeLink'>
+            <button onClick={this.clicked}
+              className={this.state.clicked ? 'addInfo addWordRotate open' : 'addInfo addWordRotate'
+              }>
+              <i className='fa fa-plus' />
+            </button>
+          </NavLink>
+        </div>
         <header>
-          <h1>Welcome to the Jabberdome, motherfuckers</h1>
+          <div className='topNav'>
+            <NavLink to='/' className='homeLink' onClick={this.exit}>
+              <h1>Jabberdexicon</h1>
+            </NavLink>
+          </div>
         </header>
-        <nav>
-          <ul>
-            <li><Link to='/browse/A'>A</Link></li>
-            <li><Link to='/browse/B'>B</Link></li>
-            <li><Link to='/browse/C'>C</Link></li>
-            <li><Link to='/browse/D'>D</Link></li>
-            <li><Link to='/browse/E'>E</Link></li>
-            <li><Link to='/browse/F'>F</Link></li>
-            <li><Link to='/browse/G'>G</Link></li>
-            <li><Link to='/browse/H'>H</Link></li>
-            <li><Link to='/browse/I'>I</Link></li>
-            <li><Link to='/browse/J'>J</Link></li>
-            <li><Link to='/browse/K'>K</Link></li>
-            <li><Link to='/browse/L'>L</Link></li>
-            <li><Link to='/browse/M'>M</Link></li>
-            <li><Link to='/browse/N'>N</Link></li>
-            <li><Link to='/browse/O'>O</Link></li>
-            <li><Link to='/browse/P'>P</Link></li>
-            <li><Link to='/browse/Q'>Q</Link></li>
-            <li><Link to='/browse/R'>R</Link></li>
-            <li><Link to='/browse/S'>S</Link></li>
-            <li><Link to='/browse/T'>T</Link></li>
-            <li><Link to='/browse/U'>U</Link></li>
-            <li><Link to='/browse/V'>V</Link></li>
-            <li><Link to='/browse/W'>W</Link></li>
-            <li><Link to='/browse/X'>X</Link></li>
-            <li><Link to='/browse/Y'>Y</Link></li>
-            <li><Link to='/browse/Z'>Z</Link></li>
-          </ul>
-        </nav>
         <main>
-          <NewWord addWord={this.addWord} />
-          <Search />
-          <Route path='/entry/:slug' component={Definition} />
-          <Route path='/browse/:letter' component={Browse} />
+          <Letters />
+          <Route exact path='/' />
+          <Search clicked={this.state.clicked} />
+          {/* <Info infoClicked={this.state.info} /> */}
+          <Switch>
+            <Route path='/addword'
+              render={(props) => {
+                return <NewWord
+                  term={this.state.term}
+                  addWord={this.addWord}
+                  active={this.state.active}
+                  exit={this.exit}
+                  clicked={this.state.clicked} />
+              }
+              }
+              />
+            <Route path='/entries/:slug' component={Result} />
+            <Route path='/browse/:letter' component={BrowseLetter} />
+            <Route path='/search/:word' component={ShowSearch} />
+            <Route path='/edit/:slug' component={EditItem} />
+          </Switch>
         </main>
         <footer>
-          <div className={styles.copyright}>
+          <div className='copyright'>
             <p>&copy; dannyoceanxo, 2017</p>
           </div>
         </footer>
       </div>
     </Router>
   }
-}
+  }
 export default App
