@@ -5,7 +5,7 @@ class Letters extends Component {
   letters = 'abcdefghijklmnopqrstuvwxyz'.split('')
 
   render () {
-    const searchLetters = this.letters.map((letters, i) => {
+    const searchLetters = this.letters.map((letter, i) => {
       return <li key={i}>
         <NavLink to={`/browse/${letter}`} className='letterLinks'>
           {letter.toUpperCase()}

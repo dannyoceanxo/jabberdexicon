@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, NavLink, Switch } from 'react-router-dom'
 import Search from './Search'
 import ShowSearch from './Showsearch'
 import Result from './Result'
